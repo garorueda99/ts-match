@@ -5,6 +5,11 @@
   "main": "index.js",
   "author": "Andres Rueda",
   "license": "MIT",
+  "scripts": {
+    "start:build": "tsc -w",
+    "start:run": "nodemon build/index.js",
+    "start": "concurrently yarn:start:*"
+  },
   "devDependencies": {
     "concurrently": "^5.3.0",
     "nodemon": "^2.0.6",
