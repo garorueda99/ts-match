@@ -1,6 +1,10 @@
 import { MatchReader } from './MatchReader';
 import { MatchResult } from './MatchResult';
 import { CsvFileReader } from './CsvFileReader';
+import { ConsoleReport } from './reportTargets/ConsoleReports';
+import { WinAnalysis } from './analyzers/winAnalysis';
+import { Summary } from './Summary';
+import { HtmlReport } from './reportTargets/HtmlReport';
 
 //REFACTOR 1
 // const reader = new MatchReader('football.csv');
@@ -17,13 +21,23 @@ import { CsvFileReader } from './CsvFileReader';
 // reader.data.map((x) => console.log(x));
 
 //REFACTOR 2
+// const matchReader = new MatchReader(new CsvFileReader('football.csv'));
+// matchReader.load();
+// const result = matchReader.matches.reduce((acc, current) => {
+//   (current[1] === 'Man United' && current[5] === MatchResult.HomeWin) ||
+//   (current[2] === 'Man United' && current[5] === MatchResult.AwayWin)
+//     ? acc++
+//     : '';
+//   return acc;
+// }, 0);
+
+// console.log(result);
+
+//REFACTOR 3
+
+// const summary = new Summary(new WinAnalysis('Man United'), new ConsoleReport());
+// const summary = new Summary(new WinAnalysis('Man United'), new HtmlReport());
+const summary = Summary.winsAnalysisWithHtmlReport('Man United');
 const matchReader = new MatchReader(new CsvFileReader('football.csv'));
 matchReader.load();
-const result = matchReader.matches.reduce((acc, current) => {
-  (current[1] === 'Man United' && current[5] === MatchResult.HomeWin) ||
-  (current[2] === 'Man United' && current[5] === MatchResult.AwayWin)
-    ? acc++
-    : '';
-  return acc;
-}, 0);
-console.log(result);
+summary.buildAndPrintReport(matchReader.matches);
